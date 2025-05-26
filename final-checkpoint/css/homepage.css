@@ -17,6 +17,9 @@ body {
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
   background: url(/final-checkpoint/img/background-finalcheckpoint.png);
+  background-repeat: repeat-x;
+  background-size: auto;
+  animation: scrollBackground 30s linear infinite;
 }
 
 header {
@@ -40,16 +43,15 @@ nav a {
 }
 
 main {
-    flex: 1;
-    padding: 20px;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 800px;
-    color: whitesmoke;
-    background-color: #0e0e27da;
-    
+  flex: 1;
+  padding: 20px;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  color: whitesmoke;
+  background-color: #0e0e27da;
 }
 
 h1 {
@@ -68,6 +70,7 @@ p {
 }
 
 .start-btn {
+  display: inline-block;
   background-color: #e0b712;
   color: #0d0d2b;
   border: none;
@@ -90,4 +93,13 @@ p {
   padding: 15px;
   margin-bottom: 10px;
   margin-left: 0;
+}
+
+@keyframes scrollBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
 }
