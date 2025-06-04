@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core';
 import GamesList from './GamesList.vue';
 
-const games = useStorage("games", [
-
-])
+const games = useStorage("games", [])
+const editingId = ref(null) 
+const isEditing = computed(() => editingId.value !== null)
 
 const newGame = ref({
   gameName: '',
@@ -19,24 +19,56 @@ function generateId() {
 }
 
 function addNewGame() {
-  const gameObject = {
-    id: generateId(),
-    done: false,
-    gameName: newGame.value.gameName,
-    gameCategory: newGame.value.gameCategory,
-    metacriticScore: newGame.value.metacriticScore,
-    dedicationHours: newGame.value.dedicationHours,
+  if (editingId.value) {
+    const game = games.value.find(game => game.id === editingId.value)
+    if (game) {
+      game.gameName = newGame.value.gameName
+      game.gameCategory = newGame.value.gameCategory
+      game.metacriticScore = newGame.value.metacriticScore
+      game.dedicationHours = newGame.value.dedicationHours
+    }
+    editingId.value = null
+  } else {
+    const gameObject = {
+      id: generateId(),
+      done: false,
+      gameName: newGame.value.gameName,
+      gameCategory: newGame.value.gameCategory,
+      metacriticScore: newGame.value.metacriticScore,
+      dedicationHours: newGame.value.dedicationHours,
+    }
+    games.value.push(gameObject)
   }
-  games.value.push(gameObject)
+  newGame.value = {
+    gameName: '',
+    gameCategory: '',
+    metacriticScore: '',
+    dedicationHours: ''
+  }
 }
-
 
 function completeGame(id) {
-
+  const game = games.value.find(game => game.id === id);
+  if (game) {
+    game.done = !game.done;
+  }
 }
 
-function editGame(id) {
+const sortedGames = computed(() => {
+  return [...games.value].sort((a, b) => a.done - b.done);
+});
 
+function editGame(id) {
+  const game = games.value.find(game => game.id === id)
+  if (game) {
+    newGame.value = {
+      gameName: game.gameName,
+      gameCategory: game.gameCategory,
+      metacriticScore: game.metacriticScore,
+      dedicationHours: game.dedicationHours
+    }
+    editingId.value = id
+  }
 }
 
 function deleteGame(id) {
@@ -44,11 +76,10 @@ function deleteGame(id) {
   if (index === -1) return
     games.value.splice(index, 1)
 }
-
 </script>
 
 <template>
-<form class="form" @submit.prevent="">
+<form class="form" @submit.prevent="addNewGame">
     <div class="form-group">
       <label>Nombre del juego</label>
       <input id="game-name" v-model="newGame.gameName" placeholder="Escriba el nombre del juego" type="text" required />
@@ -63,8 +94,8 @@ function deleteGame(id) {
         <option>Combate</option>
         <option>RPG</option>
         <option>Shooter</option>
-        <option>Esporte</option>
-        <option>Corrida</option>
+        <option>Deporte</option>
+        <option>Carrera</option>
         <option>Otra</option>
       </select>
     </div>
@@ -79,28 +110,29 @@ function deleteGame(id) {
       <input id="dedication-hours" v-model.number="newGame.dedicationHours" placeholder="Pon las horas" type="number" min="0" required />
     </div>
 
-    <button class="submit-btn" type="submit" @click="addNewGame">ENVIAR</button>
+    <button class="submit-btn" type="submit">
+      {{ isEditing ? 'GUARDAR' : 'AÑADIR' }}
+    </button>
 </form>
-<GamesList :games="games" :deleteGame="deleteGame" :completeGame="completeGame" :editGame="editGame" />
+<GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :editGame="editGame" />
 
 </template>
 
 <style scoped>
 .form {
   max-width: auto;
-  margin: 2rem auto;
-  padding: 1.5rem;
+  margin: auto;
+  padding: 1rem;
   border: 1px solid #f1c40f;
   border-radius: 10px;
   color: #f1c40f;
-  display: inline-flex;
+  display: flex;
   margin-bottom: 0;
 }
 
 .form-group {
   margin-bottom: 1rem;
   margin-right: 2rem;
-
 }
 
 label {
@@ -109,8 +141,7 @@ label {
   font-weight: bold;
 }
 
-input,
-select {
+input, select {
   width: 190px;
   padding: 0.5rem;
   border: 1px;
@@ -118,16 +149,21 @@ select {
 }
 
 .submit-btn {
-  padding: 0.5rem 0.5rem;
+  display: flex;
+  margin: auto;
+  padding: 0.7rem 0.7rem;
   border: none;
   border-radius: 10px;
   background-color: #e0b712;
   color: #0d0d2b;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
-
+  width: 70px;
+  height: 40px;
+  align-items: center;  
+  justify-content: center;
 }
 
 .submit-btn:hover {
