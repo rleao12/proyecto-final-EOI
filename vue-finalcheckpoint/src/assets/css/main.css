@@ -20,7 +20,7 @@ body {
   min-height: 100vh;
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
-  background-image: url(/img/mainBackground.png);
+  background-image: url(/img/bg-body.png);
 }
 
 body.home-page {
@@ -29,12 +29,22 @@ body.home-page {
   animation: scrollBackground 30s linear infinite;
 }
 
+body.home-page h2 {
+  color: #f1c40f;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
 body.login-page {
   background-size: cover;
 }
 
 body.games-page {
   background-size: cover;
+}
+
+body.games-page h2 {
+  color: #f1c40f;
 }
 
 header {
@@ -65,12 +75,6 @@ nav a.router-link-active {
 
 h1 {
   color: #f1c40f;
-  margin-bottom: 0.75rem;
-}
-
-h2 {
-  color: #f1c40f;
-  margin-top: 2rem;
   margin-bottom: 0.75rem;
 }
 

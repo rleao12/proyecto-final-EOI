@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, defineEmits } from 'vue'
 import { useStorage } from '@vueuse/core';
 import GamesList from './GamesList.vue';
+import PriorizeBtn from './PriorizeBtn.vue';
 
 const games = useStorage("games", [])
 const editingId = ref(null) 
@@ -53,7 +54,6 @@ function completeGame(id) {
     game.done = !game.done;
   }
 }
-
 const sortedGames = computed(() => {
   return [...games.value].sort((a, b) => a.done - b.done);
 });
@@ -70,11 +70,14 @@ function editGame(id) {
     editingId.value = id
   }
 }
-
 function deleteGame(id) {
   const index = games.value.findIndex(game => game.id === id)
   if (index === -1) return
     games.value.splice(index, 1)
+}
+const prioritizedGame = ref(null);
+function handlePriorized(game) {
+  prioritizedGame.value = game;
 }
 </script>
 
@@ -102,7 +105,7 @@ function deleteGame(id) {
 
     <div class="form-group">
       <label>Puntuación Metacritic</label>
-      <input id="metacritic-score" v-model.number="newGame.metacriticScore" placeholder="Pon la puntuación" type="number" min="0" max="10" step="0.1" required />
+      <input id="metacritic-score" v-model.number="newGame.metacriticScore" placeholder="Pon la puntuación" type="number" min="0" max="100" step="0.1" required />
     </div>
 
     <div class="form-group">
@@ -115,7 +118,12 @@ function deleteGame(id) {
     </button>
 </form>
 <GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :editGame="editGame" />
-
+<PriorizeBtn :games="games" @priorized="handlePriorized" />
+<div v-if="prioritizedGame" class="prioritized-highlight">
+  <h3>🎯 JUEGO PRIORITARIO:</h3>
+  <p>{{ prioritizedGame.gameName }} ({{ prioritizedGame.gameCategory }})</p>
+  <h3> ¡A POR EL FINAL CHECKPOINT! 🏆</h3>
+</div>
 </template>
 
 <style scoped>
@@ -131,7 +139,6 @@ function deleteGame(id) {
 }
 
 .form-group {
-  margin-bottom: 1rem;
   margin-right: 2rem;
 }
 
@@ -168,5 +175,27 @@ input, select {
 
 .submit-btn:hover {
   background-color: #ffd700;
+}
+.prioritized-highlight h3,
+.prioritized-highlight p {
+  margin: 0 0.5rem;
+  align-items: center;
+  line-height: 1.2;
+ 
+}
+.prioritized-highlight {
+  display: flex;
+  background-color:#e0b712;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ffd900;
+  color: #0d0d2b;
+  font-weight: bold;
+  font-size: 1rem;
+  width: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 </style>
