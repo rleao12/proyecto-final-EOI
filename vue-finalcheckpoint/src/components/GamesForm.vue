@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core';
 import GamesList from './GamesList.vue';
 import PriorizeBtn from './PriorizeBtn.vue';
