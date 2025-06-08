@@ -20,10 +20,10 @@ body {
   min-height: 100vh;
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
-  background-image: url(/img/bg-body.png);
 }
 
 body.home-page {
+  background-image: url(/img/home-bg.png);
   background-repeat: repeat-x;
   background-size: auto;
   animation: scrollBackground 30s linear infinite;
@@ -36,10 +36,12 @@ body.home-page h2 {
 }
 
 body.login-page {
+  background-image: url(/img/login-bg.png);
   background-size: cover;
 }
 
 body.games-page {
+  background-image: url(/img/games-bg.png);
   background-size: cover;
 }
 
@@ -47,6 +49,10 @@ body.games-page h2 {
   color: #f1c40f;
 }
 
+body.register-page {
+  background-image: url(/img/login-bg.png);
+  background-size: cover;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -82,6 +88,13 @@ p {
   font-size: 17px;
 }
 
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
 .start-btn {
   display: inline-block;
   background-color: #e0b712;
@@ -90,7 +103,6 @@ p {
   font-size: 1.5rem;
   padding: 1rem 2rem;
   font-weight: bold;
-  cursor: pointer;
   border-radius: 8px;
   text-decoration: none;
 }

@@ -12,7 +12,8 @@ const newGame = ref({
   gameName: '',
   gameCategory: '',
   metacriticScore: '',
-  dedicationHours: ''
+  dedicationHours: '',
+  completedAt: ''
 })
 
 function generateId() {
@@ -51,7 +52,8 @@ function addNewGame() {
 function completeGame(id) {
   const game = games.value.find(game => game.id === id);
   if (game) {
-    game.done = !game.done;
+    game.done = true;
+    game.completedAt = new Date().toISOString();
   }
 }
 const sortedGames = computed(() => {

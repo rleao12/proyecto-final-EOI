@@ -4,7 +4,8 @@ import Home from '@/views/Home.vue'
 const routes = [
   { path: '/', name: 'home', component: Home  },
   { path: '/games', name: 'games', component: () => import('@/views/Games.vue')  },
-  { path: '/login', name: 'login', component: () => import('@/views/Login.vue')  }
+  { path: '/login', name: 'login', component: () => import('@/views/Login.vue')  },
+  { path: '/register', name: 'register', component: () => import('@/views/Register.vue')  }
 ]
 
 export const router = createRouter({
@@ -20,5 +21,7 @@ router.afterEach((to) => {
     document.body.classList.add('games-page');
   } else if (to.name === 'login') {
     document.body.classList.add('login-page');
+  }else if (to.name === 'register') {
+    document.body.classList.add('register-page');
   }
 });

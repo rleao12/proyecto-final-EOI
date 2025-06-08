@@ -1,11 +1,11 @@
 <script setup>
-import { ref, computed, defineProps, defineEmits} from 'vue';
+import { ref, computed, defineProps} from 'vue';
 
 const { games, deleteGame, completeGame, editGame } = defineProps({
   games: Array,
   deleteGame: Function,
   completeGame: Function,
-  editGame: Function
+  editGame: Function,
 });
 
 
@@ -46,16 +46,18 @@ const filteredGames = computed(() => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="game in filteredGames" :key="game.id" :class="{ completed: game.done }">
-        <td>{{ game.gameName }}</td>
-        <td>{{ game.gameCategory }}</td>
-        <td>{{ game.metacriticScore }}</td>
-        <td>{{ game.dedicationHours }}</td>
-        <td>
+      <tr v-for="game in filteredGames" :key="game.id">
+        <td :class="{ completed: game.done }">{{ game.gameName }}</td>
+        <td :class="{ completed: game.done }">{{ game.gameCategory }}</td>
+        <td :class="{ completed: game.done }">{{ game.metacriticScore }}</td>
+        <td :class="{ completed: game.done }">{{ game.dedicationHours }}</td>
+        <td :class="{ 'completed-bg': game.done }">
         <div class="actions-btn">
-          <button @click="completeGame(game.id)">✅</button>
+          <button @click="completeGame(game.id)" :disabled="game.done">✅</button>
           <button @click="editGame(game.id)">✏️</button>
           <button @click="deleteGame(game.id)">❌</button>
+        </div>
+        <div class="completion-date" :style="{ visibility: game.completedAt ? 'visible' : 'hidden' }">Completado en {{ new Date(game.completedAt).toLocaleDateString() }}
         </div>
         </td>
       </tr>
@@ -89,9 +91,8 @@ th {
   letter-spacing: 3px;
 }
 td {
-  margin-bottom: 5px;
-  margin-top: 10px;
-  padding: 10px;
+  padding: 0.7rem;
+  height: 55px;
 }
 tbody {
   color: whitesmoke;
@@ -99,6 +100,7 @@ tbody {
 tbody tr {
   border-bottom: 1px solid #ccc;
 }
+
 .actions-btn {
   display:flex;
   align-items: center;
@@ -110,6 +112,15 @@ tbody tr {
   background-color: #2a2a2a;
   color: #777; 
   text-decoration: line-through;
+  opacity: 0.7;
+}
+.completion-date {
+  font-size: 0.70rem;
+  color: #2ab818;
+  text-align: center;
+}
+.completed-bg {
+  background-color: #2a2a2a;
   opacity: 0.7;
 }
 </style>
