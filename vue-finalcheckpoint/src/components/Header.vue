@@ -15,3 +15,27 @@
     </nav>
   </header>
 </template>
+<style scoped>
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 2px solid #f1c40f;
+  background-color: #0e0e27;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+.main-logo {
+ width: 150px;
+}
+nav a {
+  color: #ffffff;
+  margin-left: 2rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+nav a.router-link-active {
+  text-decoration: underline;
+}
+</style>

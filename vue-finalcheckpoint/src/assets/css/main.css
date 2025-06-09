@@ -6,12 +6,7 @@
 
 html, body {
   height: 100%;
-}
-
-.app-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
 }
 
 body {
@@ -53,31 +48,6 @@ body.register-page {
   background-image: url(/img/login-bg.png);
   background-size: cover;
 }
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 2px solid #f1c40f;
-  background-color: #0e0e27;
-  margin-left: 2rem;
-  margin-right: 2rem;
-}
-
-.main-logo {
- width: 150px;
-}
-
-nav a {
-  color: #ffffff;
-  margin-left: 2rem;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav a.router-link-active {
-  text-decoration: underline;
-}
 
 h1 {
   color: #f1c40f;
@@ -93,32 +63,6 @@ button {
 }
 button:disabled {
   cursor: not-allowed;
-}
-
-.start-btn {
-  display: inline-block;
-  background-color: #e0b712;
-  color: #0d0d2b;
-  border: none;
-  font-size: 1.5rem;
-  padding: 1rem 2rem;
-  font-weight: bold;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
-.start-btn:hover {
-  background-color: #ffd700;
-}
-
-.main-footer {
-  background-color: #08081a;
-  text-align: center;
-  color: whitesmoke;
-  padding: 15px;
-  margin-bottom: 10px;
-  margin-left: 2rem;
-  margin-right: 2rem;
 }
 
 @keyframes scrollBackground {

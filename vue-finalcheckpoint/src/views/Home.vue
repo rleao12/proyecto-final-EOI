@@ -15,14 +15,26 @@
 
 <style scoped>
 main {
-  width: 700px;
-  flex: 1;
+  width: 100%;
+  max-width: 700px;
   padding: 20px;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 3rem auto;
   color: whitesmoke;
   background-color: #0e0e27da;
+  box-sizing: border-box;
+}
+.start-btn {
+  display: inline-block;
+  background-color: #e0b712;
+  color: #0d0d2b;
+  border: none;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.start-btn:hover {
+  background-color: #ffd700;
 }
 </style>
