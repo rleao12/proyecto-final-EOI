@@ -8,6 +8,7 @@
 </template>
 <style scoped>
 .main-footer {
+  display:flexbox;
   background-color: #08081a;
   text-align: center;
   color: whitesmoke;

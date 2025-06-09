@@ -57,7 +57,7 @@ const filteredGames = computed(() => {
           <button @click="editGame(game.id)">✏️</button>
           <button @click="deleteGame(game.id)">❌</button>
         </div>
-        <div class="completion-date" :style="{ visibility: game.completedAt ? 'visible' : 'hidden' }">Completado en {{ new Date(game.completedAt).toLocaleDateString() }}
+        <div class="completion-date" :style="{ visibility: game.completedAt ? 'visible' : 'hidden' }">Completado el {{ new Date(game.completedAt).toLocaleDateString() }}
         </div>
         </td>
       </tr>

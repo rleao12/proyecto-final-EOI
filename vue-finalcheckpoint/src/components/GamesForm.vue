@@ -107,12 +107,12 @@ function handlePriorized(game) {
 
     <div class="form-group">
       <label>Puntuación Metacritic</label>
-      <input id="metacritic-score" v-model.number="newGame.metacriticScore" placeholder="Pon la puntuación" type="number" min="0" max="100" step="0.1" required />
+      <input id="metacritic-score" v-model.number="newGame.metacriticScore" placeholder="Añade la puntuación" type="number" min="0" max="100" step="0.1" required />
     </div>
 
     <div class="form-group">
       <label>Horas de dedicación</label>
-      <input id="dedication-hours" v-model.number="newGame.dedicationHours" placeholder="Pon las horas" type="number" min="0" required />
+      <input id="dedication-hours" v-model.number="newGame.dedicationHours" placeholder="Añade las horas" type="number" min="0" required />
     </div>
 
     <button class="submit-btn" type="submit">
