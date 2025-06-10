@@ -1,13 +1,12 @@
 <script setup>
 import { ref, computed, defineProps} from 'vue';
 
-const { games, deleteGame, completeGame, editGame } = defineProps({
+const { games, deleteGame, completeGame, getGameToEdit } = defineProps({
   games: Array,
   deleteGame: Function,
   completeGame: Function,
-  editGame: Function,
+  getGameToEdit: Function,
 });
-
 
 const selectedCategory = ref('Todas');
 const filteredGames = computed(() => {
@@ -54,7 +53,7 @@ const filteredGames = computed(() => {
         <td :class="{ 'completed-bg': game.done }">
         <div class="actions-btn">
           <button @click="completeGame(game.id)" :disabled="game.done">✅</button>
-          <button @click="editGame(game.id)">✏️</button>
+          <button @click="getGameToEdit(game.id)">✏️</button>
           <button @click="deleteGame(game.id)">❌</button>
         </div>
         <div class="completion-date" :style="{ visibility: game.completedAt ? 'visible' : 'hidden' }">Completado el {{ new Date(game.completedAt).toLocaleDateString() }}

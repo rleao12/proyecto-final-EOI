@@ -17,29 +17,50 @@ const newGame = ref({
 })
 
 function generateId() {
-  return Math.random().toString(36).substr(2, 8); 
+  return Math.random().toString(36).substring(2, 8); 
 }
 
 function addNewGame() {
-  if (editingId.value) {
-    const game = games.value.find(game => game.id === editingId.value)
-    if (game) {
-      game.gameName = newGame.value.gameName
-      game.gameCategory = newGame.value.gameCategory
-      game.metacriticScore = newGame.value.metacriticScore
-      game.dedicationHours = newGame.value.dedicationHours
+  const gameObject = {
+    id: generateId(),
+    done: false,
+    gameName: newGame.value.gameName,
+    gameCategory: newGame.value.gameCategory,
+    metacriticScore: newGame.value.metacriticScore,
+    dedicationHours: newGame.value.dedicationHours,
+  }
+  games.value.push(gameObject)
+}
+
+function getGameToEdit(id) {
+  const game = games.value.find(game => game.id === id)
+  if (game) {
+    newGame.value = {
+      gameName: game.gameName,
+      gameCategory: game.gameCategory,
+      metacriticScore: game.metacriticScore,
+      dedicationHours: game.dedicationHours
+    }
+    editingId.value = id
+  }
+}
+
+function editGame() {
+  const editingGame = games.value.find(g => g.id === editingId.value)
+    if (editingGame) {
+      editingGame.gameName = newGame.value.gameName
+      editingGame.gameCategory = newGame.value.gameCategory
+      editingGame.metacriticScore = newGame.value.metacriticScore
+      editingGame.dedicationHours = newGame.value.dedicationHours
     }
     editingId.value = null
+}
+
+function addOrEditGame() {
+  if (editingId.value) {
+    editGame()
   } else {
-    const gameObject = {
-      id: generateId(),
-      done: false,
-      gameName: newGame.value.gameName,
-      gameCategory: newGame.value.gameCategory,
-      metacriticScore: newGame.value.metacriticScore,
-      dedicationHours: newGame.value.dedicationHours,
-    }
-    games.value.push(gameObject)
+    addNewGame()
   }
   newGame.value = {
     gameName: '',
@@ -56,22 +77,10 @@ function completeGame(id) {
     game.completedAt = new Date().toISOString();
   }
 }
-const sortedGames = computed(() => {
+  const sortedGames = computed(() => {
   return [...games.value].sort((a, b) => a.done - b.done);
 });
 
-function editGame(id) {
-  const game = games.value.find(game => game.id === id)
-  if (game) {
-    newGame.value = {
-      gameName: game.gameName,
-      gameCategory: game.gameCategory,
-      metacriticScore: game.metacriticScore,
-      dedicationHours: game.dedicationHours
-    }
-    editingId.value = id
-  }
-}
 function deleteGame(id) {
   const index = games.value.findIndex(game => game.id === id)
   if (index === -1) return
@@ -84,7 +93,7 @@ function handlePriorized(game) {
 </script>
 
 <template>
-<form class="form" @submit.prevent="addNewGame">
+<form class="form" @submit.prevent="addOrEditGame">
     <div class="form-group">
       <label>Nombre del juego</label>
       <input id="game-name" v-model="newGame.gameName" placeholder="Escriba el nombre del juego" type="text" required />
@@ -112,14 +121,14 @@ function handlePriorized(game) {
 
     <div class="form-group">
       <label>Horas de dedicación</label>
-      <input id="dedication-hours" v-model.number="newGame.dedicationHours" placeholder="Añade las horas" type="number" min="0" required />
+      <input id="dedication-hours" v-model.number="newGame.dedicationHours" placeholder="Añade las horas" type="number" min="0.1" step="0.1" required />
     </div>
 
     <button class="submit-btn" type="submit">
       {{ isEditing ? 'GUARDAR' : 'AÑADIR' }}
     </button>
 </form>
-<GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :editGame="editGame" />
+<GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :getGameToEdit="getGameToEdit" />
 <PriorizeBtn :games="games" @priorized="handlePriorized" />
 <div v-if="prioritizedGame" class="prioritized-highlight">
   <h3>🎯 JUEGO PRIORITARIO:</h3>
