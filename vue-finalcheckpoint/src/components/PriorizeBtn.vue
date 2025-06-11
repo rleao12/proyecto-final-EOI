@@ -42,7 +42,8 @@ watch(
 </script>
 
 <template>
-<button class="priorize-btn" @click="handleClickPriorize" :disabled="!hasValidGames" :class="{ disabled: !hasValidGames }">✨ PRIORIZAR JUEGO ✨</button>
+<button class="priorize-btn" @click="handleClickPriorize" :disabled="!hasValidGames" :class="{ 'is-disabled': !hasValidGames }"
+>✨ PRIORIZAR JUEGO ✨</button>
 </template>
 
 <style scoped>
@@ -69,7 +70,7 @@ watch(
   background-color: #ffd700;
 }
 
-.priorize-btn.disabled {
+.priorize-btn.is-disabled {
   background-color: #e0b7126c;
   color: #414040;
   box-shadow: none;
