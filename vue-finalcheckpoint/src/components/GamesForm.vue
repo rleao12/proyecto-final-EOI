@@ -1,35 +1,37 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useStorage } from '@vueuse/core';
 import GamesList from './GamesList.vue';
 import PriorizeBtn from './PriorizeBtn.vue';
+import { useGamesStore } from '@/stores/gamesStore';
+import { onMounted } from 'vue';
 
-const games = useStorage("games", [])
+const gamesStore = useGamesStore()
+
+const games = computed(() => {
+  return gamesStore.games
+})
 const editingId = ref(null) 
 const isEditing = computed(() => editingId.value !== null)
 
 const newGame = ref({
   gameName: '',
   gameCategory: '',
-  metacriticScore: '',
-  dedicationHours: '',
-  completedAt: ''
+  metacriticScore: null,
+  dedicationHours: null,
+  completedAt: '',
+  gamePriority: null
 })
 
-function generateId() {
-  return Math.random().toString(36).substring(2, 8); 
-}
-
-function addNewGame() {
+async function addNewGame() {
   const gameObject = {
-    id: generateId(),
-    done: false,
-    gameName: newGame.value.gameName,
-    gameCategory: newGame.value.gameCategory,
-    metacriticScore: newGame.value.metacriticScore,
-    dedicationHours: newGame.value.dedicationHours,
+    completed: false,
+    title: newGame.value.gameName,
+    game_category: newGame.value.gameCategory,
+    metacritic_score: newGame.value.metacriticScore,
+    dedication_hours: newGame.value.dedicationHours,
+    game_priority: newGame.value.metacriticScore / newGame.value.dedicationHours
   }
-  games.value.push(gameObject)
+  await gamesStore.createGame(gameObject)
 }
 
 function getGameToEdit(id) {
@@ -42,18 +44,22 @@ function getGameToEdit(id) {
       dedicationHours: game.dedicationHours
     }
     editingId.value = id
-  }
+  } 
 }
 
-function editGame() {
+async function editGame() {
   const editingGame = games.value.find(g => g.id === editingId.value)
     if (editingGame) {
-      editingGame.gameName = newGame.value.gameName
-      editingGame.gameCategory = newGame.value.gameCategory
-      editingGame.metacriticScore = newGame.value.metacriticScore
-      editingGame.dedicationHours = newGame.value.dedicationHours
+      const updatedGame = {
+      title: newGame.value.gameName,
+      game_category: newGame.value.gameCategory,
+      metacritic_score: newGame.value.metacriticScore,
+      dedication_hours: newGame.value.dedicationHours,
+      game_priority: newGame.value.metacriticScore / newGame.value.dedicationHours
     }
+    await gamesStore.editGame(editingId.value, updatedGame)
     editingId.value = null
+}
 }
 
 function addOrEditGame() {
@@ -70,26 +76,34 @@ function addOrEditGame() {
   }
 }
 
-function completeGame(id) {
+async function completeGame(id) {
   const game = games.value.find(game => game.id === id);
   if (game) {
-    game.done = true;
+    game.completed = true;
     game.completedAt = new Date().toISOString();
   }
+  await gamesStore.markAsCompleted(id)
 }
-  const sortedGames = computed(() => {
-  return [...games.value].sort((a, b) => a.done - b.done);
+
+const sortedGames = computed(() => {
+return [...games.value].sort((a, b) => a.completed - b.completed);
 });
 
-function deleteGame(id) {
+async function deleteGame(id) {
   const index = games.value.findIndex(game => game.id === id)
   if (index === -1) return
     games.value.splice(index, 1)
+  await gamesStore.removeGame(id)
 }
 const prioritizedGame = ref(null);
 function handlePriorized(game) {
   prioritizedGame.value = game;
 }
+
+onMounted(() => {
+gamesStore.loadGames()
+})
+
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineProps} from 'vue';
+import { ref, computed } from 'vue';
 
 const { games, deleteGame, completeGame, getGameToEdit } = defineProps({
   games: Array,
@@ -46,13 +46,13 @@ const filteredGames = computed(() => {
     </thead>
     <tbody>
       <tr v-for="game in filteredGames" :key="game.id">
-        <td :class="{ completed: game.done }">{{ game.gameName }}</td>
-        <td :class="{ completed: game.done }">{{ game.gameCategory }}</td>
-        <td :class="{ completed: game.done }">{{ game.metacriticScore }}</td>
-        <td :class="{ completed: game.done }">{{ game.dedicationHours }}</td>
-        <td :class="{ 'completed-bg': game.done }">
+        <td :class="{ completed: game.completed }">{{ game.gameName }}</td>
+        <td :class="{ completed: game.completed }">{{ game.gameCategory }}</td>
+        <td :class="{ completed: game.completed }">{{ game.metacriticScore }}</td>
+        <td :class="{ completed: game.completed }">{{ game.dedicationHours }}</td>
+        <td :class="{ 'completed-bg': game.completed }">
         <div class="actions-btn">
-          <button @click="completeGame(game.id)" :disabled="game.done">✅</button>
+          <button @click="completeGame(game.id)" :disabled="game.completed">✅</button>
           <button @click="getGameToEdit(game.id)">✏️</button>
           <button @click="deleteGame(game.id)">❌</button>
         </div>

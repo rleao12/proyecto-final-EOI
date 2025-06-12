@@ -1,16 +1,16 @@
 <script setup>
-import { computed, watch, ref, defineProps, defineEmits } from 'vue';
+import { computed, watch, ref } from 'vue';
 const props = defineProps({ games: Array });
 const emit = defineEmits(['priorized']);
 
 const priorizeTriggered = ref(false); 
 
 const hasValidGames = computed(() => {
-  return props.games.some(game => !game.done && game.dedicationHours > 0);
+  return props.games.some(game => !game.completed && game.dedicationHours > 0);
 });
 
 function usePriorize() {
-  const validGames = props.games.filter(game => !game.done && game.dedicationHours > 0);
+  const validGames = props.games.filter(game => !game.completed && game.dedicationHours > 0);
   const prioritizedGames = [...validGames].sort((a, b) => {
     const priorityA = a.metacriticScore / a.dedicationHours;
     const priorityB = b.metacriticScore / b.dedicationHours;
@@ -28,9 +28,9 @@ function handleClickPriorize() {
 watch(
   () => props.games.map(game => ({
     id: game.id,
-    done: game.done,
+    completed: game.completed,
     dedicationHours: game.dedicationHours,
-    metacriticScore: game.metacriticScore
+    metacriticScore: game.metacriticScore,
   })),
   () => {
     if (priorizeTriggered.value) {
