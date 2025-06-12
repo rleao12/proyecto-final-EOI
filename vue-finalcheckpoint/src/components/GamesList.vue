@@ -22,7 +22,7 @@ watch(filteredGames, (newVal) => {
 </script>
 
 <template>
-<div class="game-list">
+<div class="game-list table-responsive">
   <div class="listHeadings">
     <h2>LISTA DE JUEGOS</h2>
     <filter> FILTRAR POR CATEGORÍA
@@ -127,5 +127,11 @@ tbody tr {
 .completed-bg {
   background-color: #2a2a2a;
   opacity: 0.7;
+}
+@media (max-width: 1007px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* para scroll suave en iOS */
+}  
 }
 </style>

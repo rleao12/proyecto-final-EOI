@@ -95,4 +95,13 @@ h3 {
   margin-top: 0.9rem;
   font-size: 12px;
 }
+@media (max-width: 1007px) {
+  main {
+    width: auto;
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
 </style>

@@ -38,4 +38,31 @@ nav a {
 nav a.router-link-active {
   text-decoration: underline;
 }
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .main-logo {
+    width: 120px;
+    margin-bottom: 1rem;
+  }
+
+  nav {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  nav a {
+    margin-left: 0;
+    font-size: 1rem;
+  }
+}
 </style>

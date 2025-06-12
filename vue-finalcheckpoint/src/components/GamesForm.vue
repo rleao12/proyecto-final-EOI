@@ -135,7 +135,7 @@ gamesStore.loadGames()
     </div>
 
     <div class="form-group">
-      <label>Puntuación Metacritic</label>
+      <label>Puntuación</label>
       <input id="metacritic-score" v-model.number="newGame.metacriticScore" placeholder="Añade la puntuación" type="number" min="0" max="100" step="0.1" required />
     </div>
 
@@ -228,5 +228,41 @@ input, select {
   text-align: center;
   justify-content: center;
   align-items: center;
+}
+@media (max-width: 1007px) {
+.form{
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    margin: 0 auto;
+}
+.form-group {
+    width: 100%;
+    margin: 0 0 1rem 0;
+  }
+
+  input, select {
+    box-sizing: border-box;
+  }
+
+  .submit-btn {
+    width: auto;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .prioritized-highlight {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .prioritized-highlight h3,
+  .prioritized-highlight p {
+    margin: 0.5rem 0;
+  }
 }
 </style>

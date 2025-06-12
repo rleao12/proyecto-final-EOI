@@ -13,8 +13,15 @@
   text-align: center;
   color: whitesmoke;
   padding: 15px;
-  margin-bottom: 10px;
   margin-left: 2rem;
   margin-right: 2rem;
+  margin: 0; /* elimina márgenes que afectan alineación */
+  margin-top: auto; 
+}
+@media (max-width: 1007px) {
+  .main-footer {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
 }
 </style>

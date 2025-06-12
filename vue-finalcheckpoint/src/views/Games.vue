@@ -20,4 +20,9 @@ main {
   color: whitesmoke;
   background-color: #0e0e27da;
 }
+@media (max-width: 1007px) {
+  main {
+    width:100%
+  }
+}
 </style>

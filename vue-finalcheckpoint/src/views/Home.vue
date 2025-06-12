@@ -37,4 +37,14 @@ main {
 .start-btn:hover {
   background-color: #ffd700;
 }
+@media (max-width: 1007px) {
+  main {
+    flex: 1;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 </style>

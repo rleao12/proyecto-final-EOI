@@ -26,7 +26,6 @@ main {
   width: auto;
   padding: 20px;
   margin-top: 3rem;
-  margin-bottom: 8rem;
   margin-left: auto;
   margin-right: auto;
   color: whitesmoke;
