@@ -95,9 +95,15 @@ async function deleteGame(id) {
     games.value.splice(index, 1)
   await gamesStore.removeGame(id)
 }
+
 const prioritizedGame = ref(null);
 function handlePriorized(game) {
   prioritizedGame.value = game;
+}
+
+const filteredGamesFromGamesList = ref([])
+function handleFiltered(newFiltered) {
+  filteredGamesFromGamesList.value = newFiltered
 }
 
 onMounted(() => {
@@ -142,8 +148,8 @@ gamesStore.loadGames()
       {{ isEditing ? 'GUARDAR' : 'AÑADIR' }}
     </button>
 </form>
-<GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :getGameToEdit="getGameToEdit" />
-<PriorizeBtn :games="games" @priorized="handlePriorized" />
+<GamesList :games="sortedGames" :deleteGame="deleteGame" :completeGame="completeGame" :getGameToEdit="getGameToEdit" @filtered="handleFiltered"/>
+<PriorizeBtn :games="filteredGamesFromGamesList" @priorized="handlePriorized" />
 <div v-if="prioritizedGame" class="prioritized-highlight">
   <h3>🎯 JUEGO PRIORITARIO:</h3>
   <p>{{ prioritizedGame.gameName }} ({{ prioritizedGame.gameCategory }})</p>

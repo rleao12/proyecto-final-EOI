@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 const { games, deleteGame, completeGame, getGameToEdit } = defineProps({
   games: Array,
@@ -13,6 +13,12 @@ const filteredGames = computed(() => {
   if (selectedCategory.value === 'Todas') return games;
   return games.filter(game => game.gameCategory === selectedCategory.value);
 });
+
+const emit = defineEmits(['filtered'])
+
+watch(filteredGames, (newVal) => {
+  emit('filtered', newVal)
+}, { immediate: true }) 
 </script>
 
 <template>
